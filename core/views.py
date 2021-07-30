@@ -6,6 +6,8 @@ from ipaddr import client_ip
 from django.views import View
 from django.utils import timezone
 
+from core.models import Log
+
 ###############################################################
 #            DOCUMENTATION FOR DJANGO SESSIONS:               #
 # https://docs.djangoproject.com/en/3.2/topics/http/sessions/ #
@@ -26,6 +28,9 @@ class UserSession(View):
 
         except Exception as e:
             # Be sure to create to see the error in production
+            Log.objects.create(
+                error=e
+            )
             pass
 
         return super().setup(self, request, *args, **kwargs)
